@@ -6,6 +6,7 @@ export default function App() {
   const [min, setMin] = useState(0);
   const [sec, setSec] = useState("00");
   const [reset, setReset] = useState(true);
+  const [intervalID, setIntervalID] = useState(null);
   //var interval = setInterval(StartTimer, 1000);
 
   useEffect(() => {
@@ -14,6 +15,9 @@ export default function App() {
     // console.log(reset);
     if (!reset) {
       interval = setInterval(() => {
+      // console.log(interval);
+      setIntervalID(interval)
+
         var curr = new Date().getTime();
         var distance = curr - now;
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -23,13 +27,15 @@ export default function App() {
         setMin(minutes);
       }, 1000);
     } else {
-      // console.log("triggered");
-      clearInterval(interval);
+      // console.log(interval);
+      clearInterval(intervalID);
     }
   }, [start, reset]);
   function Reset() {
     setStart("Start");
     setReset(true);
+    setMin(0);
+    setSec("00")
   }
   function StartTimer() {
     if (start == "Start") {
@@ -38,6 +44,8 @@ export default function App() {
     } else {
       setStart("Start");
       setReset(true);
+      setMin(0);
+    setSec("00")
     }
   }
   return (
